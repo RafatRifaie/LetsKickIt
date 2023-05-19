@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Lets Kick It! by gawbly",
+  "version": "1.0.0",
+  "action": { "default_popup": "index.html" },
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "js": ["src/Content.js"],
+      "matches": ["https://www.kick.com/*","https://kick.com/*"]
+    }
+  ],
+  "web_accessible_resources": [
+
+  ]
+}

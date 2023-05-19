@@ -1,0 +1,10 @@
+body {
+    background-color: red !important;
+}
+
+.removed {
+    opacity: 0.6;
+}
+.removed .chat-entry > div > span:last-child {
+    text-decoration: line-through;
+}
