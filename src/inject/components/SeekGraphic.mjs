@@ -13,7 +13,6 @@ export default class extends HTMLComponent {
     }
 
     get = () => {
-        console.log("GETTING")
         if (!this.view) {
             this.view = super.get();
             this.title = this.view.querySelector('.title');

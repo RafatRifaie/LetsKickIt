@@ -6,7 +6,6 @@ export default class {
     }
 
     get () {
-        console.log(this)
         if (!this.element) {
             this.element = Dom.htmlToElement(this.html)
         }

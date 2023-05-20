@@ -7,10 +7,10 @@ export default class extends Plugin {
     }
 
     on = async (data) => {
-        await this.waitForShit();
         let timeLabel = Getter.getElement('.vjs-remaining-time-display');
         if (timeLabel) {
             let newTimeLabel = timeLabel.cloneNode();
+            newTimeLabel.dataset.letsKickIt = "true";
             timeLabel.parentNode.replaceChild(newTimeLabel, timeLabel);
             newTimeLabel.classList.add("bullshit")
             Getter.getElement('video').addEventListener('timeupdate', (e) => {
@@ -30,10 +30,5 @@ export default class extends Plugin {
 
         }
     }
-
-    waitForShit = async () => {
-        await new Promise(resolve => setTimeout(resolve, 5000))
-    }
-
 }
 

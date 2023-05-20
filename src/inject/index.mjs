@@ -8,6 +8,7 @@ import SeekBar from "./components/SeekGraphic.mjs";
 import VodTimeLabelFix from "./plugins/VodTimeLabelFix.js";
 import Waiter from "../utility/Waier.js";
 import ChatActions from "./plugins/ChatActions.js";
+import PlaybackSpeed from "./plugins/PlaybackRate.js";
 
 let master = new MasterApi();
 
@@ -23,28 +24,35 @@ function WaitForFullBang() {
 }
 
 
-WaitForFullBang().then(e => {
-    onAppLoaded().then();
-})
+WaitForFullBang().then(onAppLoaded);
 
 async function onAppLoaded() {
     let vodSeeking = new VodSeeking();
     let vodTimeLabelFix = new VodTimeLabelFix();
     let chatActions = new ChatActions();
     let persistDeletedMessages = new PersistDeletedMessages();
+    let playbackSpeed = new PlaybackSpeed();
 
-    Waiter.waitForCached("#chatroom", (elem) => {
-        globals.emitter.emit("chatroom-added",null, elem)
-        chatActions.on();
-    })
-
-    Waiter.waitForCached(".vjs-control-bar", (elem) => {
+    Waiter.waitForCached(".vjs-remaining-time-display", (elem) => {
         globals.emitter.emit("video-added", null, elem);
-        vodSeeking.on();
+        if (window.location.pathname.includes('/video/')) {
+            if (!elem.dataset.letsKickIt) {
+                vodSeeking.on();
+                vodTimeLabelFix.on();
+                playbackSpeed.on();
+            }
+        }
+    })
+    Waiter.waitForCached("#chatroom", (elem) => {
+        globals.emitter.emit("chatroom-added", null, elem);
+        chatActions.on(elem);
+        persistDeletedMessages.on();
+
     })
 
-    await globals.refresh().then(components => {
-    });
+
+
+    await globals.refresh().then(components => {});
 
     globals.apis = master;
 

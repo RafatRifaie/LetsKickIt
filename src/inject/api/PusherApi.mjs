@@ -11,7 +11,6 @@ export default class PusherApi extends Api {
     #initialize = async () => {
         return new Promise((resolve) => {
             let interval = setInterval(() => {
-                console.log("checking")
                 this.channels = window?.Echo?.['connector']?.['channels'];
                 if (this.channels !== undefined) {
                     this.#initialized = true;
@@ -29,41 +28,49 @@ export default class PusherApi extends Api {
         if (this.#initialized === false) {
             await this.#initialize()
         }
-        let activeChannel = this.getActiveChannel();
-        console.log("retrieving channel id : " + activeChannel)
+        let activeChannel = await this.getActiveChannel();
         if (!activeChannel) {
             console.log('LETS_KICK_IT', `channel with id ${activeChannel} is not found, are you sure theres a chat open?!`)
         }
-        let eventHandlers = this.getActiveChannelHandlers(event);
+        let eventHandlers = this.getActiveChannelHandlers(activeChannel, event);
         this.#cache.set(event, [...eventHandlers]);
         eventHandlers.length = 0;
         eventHandlers.push({fn: newHandler});
     }
 
-    removeOverride(event) {
+    removeOverride = async (event) => {
+        let activeChannel = await this.getActiveChannel();
+
         let originalHandlers = this.#cache.get(event);
         if (!originalHandlers) {
             return;
         }
-        let callbacks = this.getActiveChannelHandlers(event);
+        let callbacks = this.getActiveChannelHandlers(activeChannel, event);
         callbacks.length = 0;
         callbacks.push(...originalHandlers);
     }
 
-    getActiveChannelHandlers(event) {
-        return this.channels[this.getActiveChannel()]['subscription']['callbacks']['_callbacks'][event];
-    }
-
-    getActiveChannelCallbacks() {
-        return this.channels[this.getActiveChannel()]['subscription']['callbacks']['_callbacks'];
+    getActiveChannelHandlers = (channel, event) => {
+        return this.channels[channel]['subscription']['callbacks']['_callbacks'][event];
     }
 
     getActiveChannel() {
-        for (let key in this.channels) {
-            if (key.includes('v2')) {
-                return key;
+        return new Promise(async (resolve) => {
+            while (true) {
+                for (let key in this.channels) {
+                    if (key.includes('v2')) {
+                        resolve(key);
+                        return;
+                    }
+                }
+                await new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 1000);
+                })
             }
-        }
+        });
+
     }
 }
 

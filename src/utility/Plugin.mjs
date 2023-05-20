@@ -3,7 +3,6 @@ export default class {
     }
 
     on(data) {
-        console.log("on")
     }
 
     off(data) {

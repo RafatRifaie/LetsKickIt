@@ -29,7 +29,7 @@ class UniqueCachedWaiter {
             }
         })()
 
-        let observer = this.handlers[options.root];
+        let observer = this.handlers[selector];
         if (!observer) {
             observer = new MutationObserver((mutations) => {
                 if (this.cache[selector]?.isConnected) {
@@ -38,16 +38,16 @@ class UniqueCachedWaiter {
                 let elem = checker(selector);
 
                 if (elem) {
-                    for (let handler of this.handlers[options.root]) {
+                    for (let handler of this.handlers[selector]) {
                         handler(elem, observer);
                     }
                     this.cache[selector] = elem;
                 }
             });
             observer.observe(options.root, {childList: true, subtree: true});
-            this.handlers[options.root] = [];
+            this.handlers[selector] = [];
         }
-        this.handlers[options.root].push(handler);
+        this.handlers[selector].push(handler);
     }
 }
 

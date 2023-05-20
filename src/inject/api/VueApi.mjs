@@ -20,7 +20,6 @@ export default class VueApi extends Api {
     }
 
     showTooltip = (content, x, y, w) => {
-        console.log(this.#getTooltipState())
         this.#getTooltipState()['setContent'](content);
         this.#getTooltipState()['showTooltip']({elLeft: x, elTop: y, elWidth: w});
     }
@@ -29,16 +28,39 @@ export default class VueApi extends Api {
         this.#getTooltipState()['hideTooltip']();
     }
 
+    toastTimout;
+    showToast = (content) => {
+        this.hideToast();
+        this.#getToastState()['showNewToast'](content, {
+            "backgroundColor": "#1475e1",
+            "textColor": "#fff"
+        });
+        clearTimeout(this.toastTimout);
+        this.toastTimout = setTimeout(() => {
+            this.hideToast();
+        }, 1500)
+    }
+
+    hideToast = () => {
+        this.#getToastState()['dismissToast']();
+    }
+
+
     #getChatroomState = () => {
         return this.#getState()['chatroomv2'];
     }
-
     #getTooltipState = () => {
         return this.#getFullState().get('tooltip');
     }
+
+    #getToastState() {
+        return this.#getFullState().get('chatroomToast');
+    }
+
     #getFullState = () => {
         return globals.appNode['__vue_app__']['config']['globalProperties']['$pinia']['_s'];
     }
+
     #getState = () => {
         return globals.appNode['__vue_app__']['config']['globalProperties']['$pinia']['state']['value'];
     }

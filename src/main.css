@@ -22,6 +22,33 @@ body {
     display: none;
 }
 
+.vjs-playback-rate.lets-kick-it {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vjs-playback-rate.lets-kick-it .vjs-playback-rate-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vjs-playback-rate.lets-kick-it .vjs-menu {
+    width: 6em;
+}
+
+    /*actions bar*/
+
+.actions-bar {
+    display: flex;
+}
+
+.actions-bar .lets-kick-it {
+    order: -1;
+}
+
+
 .seek-circle.visible {
     opacity: 1;
     transition: opacity 250ms ease;

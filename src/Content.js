@@ -1,5 +1,5 @@
 import './main.css'
-import mainWord from './inject/index.mjs?script&module';
+import mainWorld from './inject/index.mjs?script&module';
 import Utility from "./utility/Utility";
 
 
@@ -17,23 +17,15 @@ eventsDiv.addEventListener('message', (e) => {
 document.body.appendChild(eventsDiv);
 
 const script = document.createElement('script')
-script.src = chrome.runtime.getURL(mainWord)
+script.src = chrome.runtime.getURL(mainWorld)
 script.type = 'module'
 document.head.prepend(script)
 
 
 async function dothedeed() {
     await chrome.storage.local.set({
-        count: 0,
+        "kick-it-version": "1.0.0",
     })
-
-
-    await chrome.storage.local.get({
-        count: 0,
-    }).then(e => {
-        console.log(e)
-    })
-
 }
 
 dothedeed().then()

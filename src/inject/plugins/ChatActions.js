@@ -11,18 +11,16 @@ export default class ChatActions {
         this.actionsBar = new ChatActionsBar();
     }
 
-    on = () => {
-        globals.emitter.on('chatroom-added', (chatroom) => {
-            let holder = chatroom.childNodes[1];
-            let old = holder.insertBefore;
-            holder.insertBefore =  (node, reference) => {
-                if (node?.style?.right) {
-                    node.appendChild(this.actionsBar.get());
-                }
-                return old.call(holder, node, reference);
-
-            };
-        })
+    on = (chatroom) => {
+        let holder = chatroom.childNodes[1];
+        let old = holder.insertBefore;
+        holder.insertBefore =  (node, reference) => {
+            if (node?.style?.right) {
+                node.classList.add("actions-bar");
+                node.appendChild(this.actionsBar.get());
+            }
+            return old.call(holder, node, reference);
+        };
     }
 
     off = () => {

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Lets Kick It!",
+  "description": "Lets Kick It: Enhance your experience on kick.com!",
   "version": "1.0.0",
-  "action": { "default_popup": "index.html" },
   "permissions": [
     "storage",
     "clipboardWrite"
@@ -25,7 +25,8 @@
         "/res/icon/*"
       ],
       "matches": [
-        "<all_urls>"
+        "https://kick.com/*",
+        "https://www.kick.com/*"
       ]
     }
   ]
