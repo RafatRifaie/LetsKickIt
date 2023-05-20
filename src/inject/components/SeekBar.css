@@ -1,25 +1,9 @@
-body {
-}
-
-.removed {
-    opacity: 0.6;
-}
-.removed .chat-entry > div > span:last-child {
-    text-decoration: line-through;
-}
-
-
 .inner {
     display: flex;
     flex-direction: column;
     gap: 5px;
     justify-content: center;
     align-items: center;
-}
-
-/*remove negative sign*/
-.vjs-remaining-time span[aria-hidden=true]:nth-child(2){
-    display: none;
 }
 
 .seek-circle.visible {

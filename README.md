@@ -8,3 +8,5 @@
 3) Vods
    * Vod Seeking with Keyboard
    * Vod video speed
+
+On Each route change 

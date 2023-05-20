@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Lets Kick It! by gawbly",
+  "name": "Lets Kick It!",
   "version": "1.0.0",
   "action": { "default_popup": "index.html" },
   "permissions": [
-    "storage"
+    "storage",
+    "clipboardWrite"
   ],
   "content_scripts": [
     {
@@ -12,7 +13,20 @@
       "matches": ["https://www.kick.com/*","https://kick.com/*"]
     }
   ],
+  "icons": {
+    "16": "res/icon/app/16.png",
+    "20": "res/icon/app/20.png",
+    "48": "res/icon/app/48.png",
+    "64": "res/icon/app/64.png"
+  },
   "web_accessible_resources": [
-
+    {
+      "resources": [
+        "/res/icon/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }

@@ -2,25 +2,44 @@ import globals from "../globals.mjs";
 import Api from "./Api";
 
 export default class VueApi extends Api {
-    #pinia;
-    #chatroom;
 
     constructor() {
         super('vue')
-        this.#initialize();
-    }
-
-    #initialize() {
-        console.log("=============================")
-        this.#pinia = globals.appNode['__vue_app__']['config']['globalProperties']['$pinia']['state']['value'];
-        this.#chatroom = this.#pinia['chatroomv2'];
     }
 
     isUserMod() {
-        return this.#chatroom?.['userMe']?.['is_moderator'];
+        return this.#getChatroomState()?.['userMe']?.['is_moderator'];
+    }
+
+    getHoveredMessage() {
+        return this.#getChatroomState()?.['currentHoverMessage'];
     }
 
     getChatroomId() {
-        return this.#chatroom?.['chatroom']?.['id'];
+        return this.#getChatroomState()?.['chatroom']?.['id'];
+    }
+
+    showTooltip = (content, x, y, w) => {
+        console.log(this.#getTooltipState())
+        this.#getTooltipState()['setContent'](content);
+        this.#getTooltipState()['showTooltip']({elLeft: x, elTop: y, elWidth: w});
+    }
+
+    hideTooltip = (x, y, w) => {
+        this.#getTooltipState()['hideTooltip']();
+    }
+
+    #getChatroomState = () => {
+        return this.#getState()['chatroomv2'];
+    }
+
+    #getTooltipState = () => {
+        return this.#getFullState().get('tooltip');
+    }
+    #getFullState = () => {
+        return globals.appNode['__vue_app__']['config']['globalProperties']['$pinia']['_s'];
+    }
+    #getState = () => {
+        return globals.appNode['__vue_app__']['config']['globalProperties']['$pinia']['state']['value'];
     }
 }

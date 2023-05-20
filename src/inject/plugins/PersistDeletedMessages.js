@@ -8,9 +8,9 @@ export default class Shit extends Plugin {
         super();
     }
 
-    on(data) {
-        let chatroomId = globals.apis.getApi('vue').getChatroomId();
-        globals.apis.getApi('pusher').override(chatroomId, Events.ChatMessageDeleteEvent, onMessageDeleted);
+    on() {
+        super.on();
+        globals.apis.getApi('pusher').override( Events.ChatMessageDeleteEvent, onMessageDeleted);
         function onMessageDeleted(data) {
             let id = data.message.id || data.id;
             let removedMessageNode = document.querySelector(`[data-chat-entry="${id}"]`);
@@ -19,11 +19,8 @@ export default class Shit extends Plugin {
 
     }
 
-
     off(data) {
         super.off(data);
         globals.apis.getApi('pusher').removeOverride( Events.ChatMessageDeleteEvent);
     }
-
-
 }

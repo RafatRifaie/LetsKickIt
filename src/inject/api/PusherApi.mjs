@@ -2,46 +2,62 @@ import Api from "./Api";
 
 export default class PusherApi extends Api {
 
+    #initialized = false;
+
     constructor() {
         super('pusher');
-        this.#initialize();
     }
 
-    #initialize() {
-        this.channels = window.Echo['connector']['channels'];
+    #initialize = async () => {
+        return new Promise((resolve) => {
+            let interval = setInterval(() => {
+                console.log("checking")
+                this.channels = window?.Echo?.['connector']?.['channels'];
+                if (this.channels !== undefined) {
+                    this.#initialized = true;
+                    clearInterval(interval);
+                    resolve()
+                }
+            }, 1000);
+        });
+
     }
 
     #cache = new Map();
 
-    override(event, newHandler) {
+    override = async (event, newHandler) => {
+        if (this.#initialized === false) {
+            await this.#initialize()
+        }
         let activeChannel = this.getActiveChannel();
         console.log("retrieving channel id : " + activeChannel)
         if (!activeChannel) {
             console.log('LETS_KICK_IT', `channel with id ${activeChannel} is not found, are you sure theres a chat open?!`)
         }
-        let callbacks = this.channels[`chatrooms.${activeChannel}.v2`]['subscription']['callbacks']['_callbacks'];
-        let eventHandlers = callbacks[event];
+        let eventHandlers = this.getActiveChannelHandlers(event);
         this.#cache.set(event, [...eventHandlers]);
         eventHandlers.length = 0;
-        eventHandlers.push({fn:newHandler});
-        console.log(eventHandlers)
+        eventHandlers.push({fn: newHandler});
     }
 
     removeOverride(event) {
-        let originalCallbacks = this.#cache.get(event);
-        if (!originalCallbacks) {
+        let originalHandlers = this.#cache.get(event);
+        if (!originalHandlers) {
             return;
         }
-        let callbacks = this.getActiveChannelCallbacks();
-        let eventHandlers = callbacks[event];
+        let callbacks = this.getActiveChannelHandlers(event);
+        callbacks.length = 0;
+        callbacks.push(...originalHandlers);
     }
 
-    getActiveChannelHandlers() {
-        return this.channels[`chatrooms.${this.getActiveChannel()}.v2`]['subscription']['callbacks']['_callbacks'];
+    getActiveChannelHandlers(event) {
+        return this.channels[this.getActiveChannel()]['subscription']['callbacks']['_callbacks'][event];
     }
+
     getActiveChannelCallbacks() {
-        return this.channels[`chatrooms.${this.getActiveChannel()}.v2`]['subscription']['callbacks']['_callbacks'];
+        return this.channels[this.getActiveChannel()]['subscription']['callbacks']['_callbacks'];
     }
+
     getActiveChannel() {
         for (let key in this.channels) {
             if (key.includes('v2')) {
