@@ -6,11 +6,12 @@ export default class extends Plugin {
         super();
     }
 
-    on = async (data) => {
+    on = async () => {
         let timeLabel = Getter.getElement('.vjs-remaining-time-display');
         if (timeLabel) {
             let newTimeLabel = timeLabel.cloneNode();
             newTimeLabel.dataset.letsKickIt = "true";
+            newTimeLabel.innerText = "00:00:00";
             timeLabel.parentNode.replaceChild(newTimeLabel, timeLabel);
             newTimeLabel.classList.add("bullshit")
             Getter.getElement('video').addEventListener('timeupdate', (e) => {
