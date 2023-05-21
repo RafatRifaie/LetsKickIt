@@ -10,7 +10,7 @@ import Waiter from "../utility/Waier.js";
 import ChatActions from "./plugins/ChatActions.js";
 import PlaybackSpeed from "./plugins/PlaybackRate.js";
 import ChatInputHistory from "./plugins/ChatInputHistory.js";
-import FixChatInputFocusSlowMode from "./plugins/FixChatInputFocusSlowMode.js";
+import FixChatInputFocus from "./plugins/FixChatInputFocus";
 
 let master = new MasterApi();
 
@@ -35,7 +35,7 @@ async function onAppLoaded() {
     let persistDeletedMessages = new PersistDeletedMessages();
     let playbackSpeed = new PlaybackSpeed();
     let chatInputHistory = new ChatInputHistory();
-    let fixChatInputFocusSlowMode = new FixChatInputFocusSlowMode();
+    let fixChatInputFocus = new FixChatInputFocus();
 
     Waiter.waitForCached(".vjs-remaining-time-display", (elem) => {
         globals.emitter.emit("video-added", null, elem);
@@ -52,7 +52,7 @@ async function onAppLoaded() {
         chatActions.on(chatroom);
         persistDeletedMessages.on();
         chatInputHistory.on();
-        fixChatInputFocusSlowMode.on()
+        fixChatInputFocus.on()
     })
 
 
