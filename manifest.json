@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Lets Kick It!",
   "description": "Lets Kick It: Enhance your experience on kick.com!",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "permissions": [
     "storage",
     "clipboardWrite"
