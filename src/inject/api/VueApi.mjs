@@ -69,6 +69,10 @@ export default class VueApi extends Api {
         return this.#getChatroomFullState()['currentMessage'];
     }
 
+    setCurrentMessage = (message) => {
+        return this.#getChatroomFullState()['setCurrentMessage'](message);
+    }
+
     #getChatroomState = () => {
         return this.#getState()['chatroomv2'];
     }
