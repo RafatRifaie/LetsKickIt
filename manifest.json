@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Lets Kick It!",
   "description": "Lets Kick It: Enhance your experience on kick.com!",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "permissions": [
     "storage",
     "clipboardWrite"
@@ -29,5 +29,8 @@
         "https://www.kick.com/*"
       ]
     }
-  ]
+  ],
+  "action": {
+    "default_title": "Lets Kick It! By Gawbly"
+  }
 }

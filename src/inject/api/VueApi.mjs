@@ -45,9 +45,36 @@ export default class VueApi extends Api {
         this.#getToastState()['dismissToast']();
     }
 
+    onMessageSent = (handler) => {
+        if (!this.messageHandlers) {
+            this.messageHandlers = new Set();
+            /**/
+            let old = this.#getChatroomFullState()['sendCurrentMessage'];
+            this.#getChatroomFullState()['sendCurrentMessage'] = () => {
+                let currentMessage = this.getCurrentMessage();
+                old.apply(this);
+                this.messageHandlers.forEach(handler => {
+                    try {
+                        handler(currentMessage);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                })
+            };
+        }
+        this.messageHandlers.add(handler);
+    }
+
+    getCurrentMessage = () => {
+        return this.#getChatroomFullState()['currentMessage'];
+    }
 
     #getChatroomState = () => {
         return this.#getState()['chatroomv2'];
+    }
+
+    #getChatroomFullState = () => {
+        return this.#getFullState().get('chatroomv2');
     }
     #getTooltipState = () => {
         return this.#getFullState().get('tooltip');

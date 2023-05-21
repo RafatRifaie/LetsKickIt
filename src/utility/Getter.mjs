@@ -5,6 +5,9 @@ const Getter = {
     getElement: function (selector) {
         return document.querySelector(selector);
     },
+    getElementById: function (id) {
+        return document.getElementById(id);
+    },
     getElementInside: function (element, selector) {
         return element.querySelector(selector);
     },

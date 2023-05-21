@@ -1,13 +1,13 @@
-import './style.css'
 
-document.querySelector('#app').innerHTML = `
-  <h1>Hello Vite!</h1>
-  <button>Count: 0</button>
-`
+let i = [1,2,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,20, 21];
+console.log(i.length)
+if (i.length > 20) {
+    i.splice(0, 1)
+}
+let i2 = {
+    tempMessage: true
+}
 
-let count = 0
-const button = document.querySelector('#app button')
-button.addEventListener('click', () => {
-    count++
-    button.textContent = `Count: ${count}`
-})
+if (i2.tempMessage) {
+    console.log("trye")
+}

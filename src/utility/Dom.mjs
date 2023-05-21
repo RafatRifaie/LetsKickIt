@@ -18,7 +18,10 @@ let Dom = {
             }
         }
         return false;
-    }
+    },
+    isNodeFocused(node) {
+        return document.activeElement === node;
+    },
 }
 
 export default Dom;

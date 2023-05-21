@@ -5,10 +5,12 @@ import Vue from "./api/VueApi.mjs";
 import globals from "./globals.mjs";
 import PersistDeletedMessages from "./plugins/PersistDeletedMessages.js";
 import SeekBar from "./components/SeekGraphic.mjs";
-import VodTimeLabelFix from "./plugins/VodTimeLabelFix.js";
+import VodTimeLabelFix from "./plugins/FixVodTimeLabel.js";
 import Waiter from "../utility/Waier.js";
 import ChatActions from "./plugins/ChatActions.js";
 import PlaybackSpeed from "./plugins/PlaybackRate.js";
+import ChatInputHistory from "./plugins/ChatInputHistory.js";
+import FixChatInputFocusSlowMode from "./plugins/FixChatInputFocusSlowMode.js";
 
 let master = new MasterApi();
 
@@ -32,6 +34,8 @@ async function onAppLoaded() {
     let chatActions = new ChatActions();
     let persistDeletedMessages = new PersistDeletedMessages();
     let playbackSpeed = new PlaybackSpeed();
+    let chatInputHistory = new ChatInputHistory();
+    let fixChatInputFocusSlowMode = new FixChatInputFocusSlowMode();
 
     Waiter.waitForCached(".vjs-remaining-time-display", (elem) => {
         globals.emitter.emit("video-added", null, elem);
@@ -43,11 +47,12 @@ async function onAppLoaded() {
             }
         }
     })
-    Waiter.waitForCached("#chatroom", (elem) => {
-        globals.emitter.emit("chatroom-added", null, elem);
-        chatActions.on(elem);
+    Waiter.waitForCached("#chatroom", (chatroom) => {
+        globals.emitter.emit("chatroom-added", null, chatroom);
+        chatActions.on(chatroom);
         persistDeletedMessages.on();
-
+        chatInputHistory.on();
+        fixChatInputFocusSlowMode.on()
     })
 
 
