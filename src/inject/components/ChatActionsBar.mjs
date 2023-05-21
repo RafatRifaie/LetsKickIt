@@ -49,7 +49,6 @@ export default class extends HTMLComponent {
             const sel = window.getSelection();
             sel.collapse(chatInput.lastChild, newContent.length);
         }
-
     }
 
     onCopy = () => {
@@ -74,7 +73,7 @@ export default class extends HTMLComponent {
         });
 
 
-        element.addEventListener('mouseleave', (e) => {
+        element.addEventListener('mouseleave', () => {
             globals.apis.getApi('vue').hideTooltip()
         });
 

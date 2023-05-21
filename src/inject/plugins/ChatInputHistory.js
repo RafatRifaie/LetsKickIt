@@ -1,10 +1,7 @@
 import Plugin from '../../utility/Plugin.mjs'
 import Dom from "../../utility/Dom.mjs";
-import SeekBar from "../components/SeekGraphic.mjs";
 import Getter from "../../utility/Getter.mjs";
 import globals from "../globals.mjs";
-import ChatActionsBar from "../components/ChatActionsBar.mjs";
-import chatActionsBar from "../components/ChatActionsBar.mjs";
 /*i hate my life*/
 const MoveDirection = {
     UP: 'up',
